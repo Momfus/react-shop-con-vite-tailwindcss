@@ -1,13 +1,7 @@
-function MyAccount() {
+import Layout from "../../Components/Layout";
 
-   return (
-     
-     <div className='bg-red-100'>
-       MyAccount
-     </div>
-     
-   )
- }
- 
- export default MyAccount
- 
+function MyAccount() {
+  return <Layout>MyAccount</Layout>;
+}
+
+export default MyAccount;
