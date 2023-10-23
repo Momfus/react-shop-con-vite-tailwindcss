@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // Se usa esto como padre de todos para generalizar y "children" es el que usa de los elementos hijos para renderizarse
 const Layout = ({ children }) => {

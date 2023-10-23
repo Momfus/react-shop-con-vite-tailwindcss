@@ -1,8 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { ShoppingCartContext } from '../../Context';
 
 // Navbar usar react-router-dom para redirigir con distintas opciones
 const Navbar = () => {
-  const activeStyle = "underline"; // Manejo de clasees de la ruta activa
+  const context = useContext(ShoppingCartContext); // leer el estado global del contexto
+  const activeStyle = 'underline'; // Manejo de clasees de la ruta activa
 
   return (
     <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light bg-gray-50">
@@ -96,7 +99,7 @@ const Navbar = () => {
             Sign In
           </NavLink>
         </li>
-        <li>🛒 0</li>
+        <li>🛒 {context.count}</li>
       </ul>
     </nav>
   );
