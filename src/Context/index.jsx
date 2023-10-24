@@ -28,6 +28,9 @@ export const ShoppingCartProvider = ({ children }) => {
     images: [],
   });
 
+  // Shopping Cart - Add products to cart
+  const [cartProducts, setCartProducts] = useState([]);
+
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -38,6 +41,8 @@ export const ShoppingCartProvider = ({ children }) => {
         isProductDetailOpen,
         productToShow,
         setProductToShow,
+        cartProducts,
+        setCartProducts,
       }}
     >
       {children};
