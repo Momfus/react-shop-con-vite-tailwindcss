@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react"; // useEffect = siempre que se usen API y comunicarse con la misma
+import { useState, useEffect } from 'react'; // useEffect = siempre que se usen API y comunicarse con la misma
 
-import Layout from "../../Components/Layout";
-import Card from "../../Components/Card";
+import Layout from '../../Components/Layout';
+import Card from '../../Components/Card';
 
-import apiUrl from "../../api";
+import apiUrl from '../../api';
+import ProductDetail from '../../Components/ProductDetail';
 
 function Home() {
   const [items, setItems] = useState(null);
@@ -32,6 +33,7 @@ function Home() {
           <Card key={item.id} data={item} />
         ))}
       </div>
+      <ProductDetail />
     </Layout>
   );
 }

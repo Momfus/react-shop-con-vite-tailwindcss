@@ -10,10 +10,36 @@ export const ShoppingCartProvider = ({ children }) => {
     children: PropTypes.node.isRequired,
   };
 
+  // Shopping Carg - Incremente quantity
   const [count, setCount] = useState(0);
 
+  // Product detail - open/close
+  const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
+
+  // Funciones para abrir y cerrar el detalle del producto que se comparte entre varios componentes en el context
+  const openProductDetail = () => setIsProductDetailOpen(true);
+  const closeProductDetail = () => setIsProductDetailOpen(false);
+
+  // Product detail - Show product
+  const [productToShow, setProductToShow] = useState({
+    title: '',
+    price: '',
+    description: '',
+    images: [],
+  });
+
   return (
-    <ShoppingCartContext.Provider value={{ count, setCount }}>
+    <ShoppingCartContext.Provider
+      value={{
+        count,
+        setCount,
+        openProductDetail,
+        closeProductDetail,
+        isProductDetailOpen,
+        productToShow,
+        setProductToShow,
+      }}
+    >
       {children};
     </ShoppingCartContext.Provider>
   );

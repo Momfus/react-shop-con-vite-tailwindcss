@@ -2,6 +2,8 @@ import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { ShoppingCartContext } from '../../Context';
 
+import { ShoppingCartIcon } from '@heroicons/react/24/solid';
+
 // Navbar usar react-router-dom para redirigir con distintas opciones
 const Navbar = () => {
   const context = useContext(ShoppingCartContext); // leer el estado global del contexto
@@ -99,7 +101,9 @@ const Navbar = () => {
             Sign In
           </NavLink>
         </li>
-        <li>🛒 {context.count}</li>
+        <li className="flex justify-center">
+          <ShoppingCartIcon className="h-6 w-6" /> {context.count}
+        </li>
       </ul>
     </nav>
   );
