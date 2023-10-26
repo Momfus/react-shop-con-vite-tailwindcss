@@ -30,6 +30,7 @@ export const ShoppingCartProvider = ({ children }) => {
     price: '',
     description: '',
     images: [],
+    units: 0,
   });
 
   // Shopping Cart - Add products to cart

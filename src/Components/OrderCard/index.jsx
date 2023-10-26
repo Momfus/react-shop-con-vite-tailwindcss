@@ -1,13 +1,16 @@
-import { XMarkIcon } from '@heroicons/react/24/solid';
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
+import { TrashIcon } from '@heroicons/react/24/solid';
 
-const OrderCard = ({ title, imageUrl, price }) => {
-  // Esto es para que no moleste el error de propTypes
-  OrderCard.propTypes = {
-    title: PropTypes.node.isRequired,
-    imageUrl: PropTypes.node.isRequired,
-    price: PropTypes.node.isRequired,
-  };
+const OrderCard = ({
+  id,
+  title,
+  imageUrl,
+  price,
+  units,
+  handleDelete,
+  quantityChange,
+}) => {
+  console.log(`UNITS ${units}`);
 
   return (
     <div className='flex justify-between items-center mb-2'>
@@ -19,11 +22,37 @@ const OrderCard = ({ title, imageUrl, price }) => {
             alt={title}
           />
         </figure>
-        <p className='text-sm font-light'>{title}</p>
+        <div>
+          <p className='text-lg font-medium gap-2'>${price}</p>
+          <p className='text-sm font-light'>{title}</p>
+        </div>
       </div>
-      <div>
-        <p className='text-lg font-medium gap-2'>${price}</p>
-        <XMarkIcon className='h-6 w-6  text-black cursor-pointer' />
+
+      <div className='flex items-center'>
+        <div className='flex justify-center w-6'>
+          <button
+            onClick={() => {
+              quantityChange(id, -1);
+            }}
+          >
+            -
+          </button>
+          <p className='mx-1'>{units} </p>
+          <button
+            onClick={() => {
+              quantityChange(id, 1);
+            }}
+          >
+            +
+          </button>
+        </div>
+
+        <TrashIcon
+          className='h-4 w-4  text-black cursor-pointer ml-4'
+          onClick={() => {
+            handleDelete(id);
+          }}
+        />
       </div>
     </div>
   );

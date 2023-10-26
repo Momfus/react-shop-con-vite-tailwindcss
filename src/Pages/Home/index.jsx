@@ -14,8 +14,13 @@ function Home() {
     const fetchData = async () => {
       try {
         const response = await fetch(`${apiUrl}/products`);
-        const data = await response.json();
+        let data = await response.json();
+        data = data.map((item) => ({
+          ...item,
+          units: 0, // añadido para el conteo en el carrito
+        }));
         setItems(data);
+        console.log(data);
       } catch (error) {
         console.error(`Ocurrio un error: ${error}`);
       }
@@ -28,7 +33,7 @@ function Home() {
   return (
     <Layout>
       Home
-      <div className="grid gap-4 grid-cols-4 w-full max-w-screen-lg">
+      <div className='grid gap-4 grid-cols-4 w-full max-w-screen-lg'>
         {items?.map((item) => (
           <Card key={item.id} data={item} />
         ))}

@@ -7,7 +7,32 @@ import './styles.css';
 
 const CheckoutSideMenu = () => {
   const context = useContext(ShoppingCartContext); // leer el estado global del contexto
-  console.log('CART: ', context.cartProducts);
+
+  const handleDelete = (id) => {
+    const filteredProducts = context.cartProducts.filter(
+      (product) => product.id != id
+    );
+    context.setCartProducts(filteredProducts);
+    context.setCount(--context.count);
+  };
+
+  const quantityChange = (id, type) => {
+    const auxProducts = [...context.cartProducts];
+
+    const itemIndex = auxProducts.findIndex((product) => product.id == id);
+    console.log(`antes: ${auxProducts[itemIndex].units} `);
+    if (type > 0) {
+      auxProducts[itemIndex].units++;
+      context.setCartProducts(auxProducts);
+    } else {
+      auxProducts[itemIndex].units--;
+      context.setCartProducts(auxProducts);
+    }
+    console.log(`despues: ${auxProducts[itemIndex].units} `);
+    if (auxProducts[itemIndex].units === 0) {
+      handleDelete(id);
+    }
+  };
 
   return (
     <aside
@@ -25,13 +50,17 @@ const CheckoutSideMenu = () => {
         </div>
       </div>
 
-      <div className='px-6'>
+      <div className='px-6 overflow-y-auto'>
         {context.cartProducts.map((product) => (
           <OrderCard
+            id={product.id}
             key={product.id}
             title={product.title}
             imageUrl={product.images}
             price={product.price}
+            units={product.units}
+            handleDelete={handleDelete}
+            quantityChange={quantityChange}
           />
         ))}
       </div>
