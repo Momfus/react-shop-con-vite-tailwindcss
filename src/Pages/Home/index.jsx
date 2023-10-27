@@ -20,7 +20,6 @@ function Home() {
           units: 0, // añadido para el conteo en el carrito
         }));
         setItems(data);
-        console.log(data);
       } catch (error) {
         console.error(`Ocurrio un error: ${error}`);
       }

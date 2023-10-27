@@ -1,5 +1,6 @@
 import './styles.css';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { ShoppingCartContext } from '../../Context';
 import { XCircleIcon } from '@heroicons/react/24/solid';
 import OrderCard from '../OrderCard';
@@ -8,6 +9,7 @@ import { totalPrice } from '../../utils';
 const CheckoutSideMenu = () => {
   const context = useContext(ShoppingCartContext); // leer el estado global del contexto
 
+  // Borrar elemento de la orden
   const handleDelete = (id) => {
     const filteredProducts = context.cartProducts.filter(
       (product) => product.id != id
@@ -16,11 +18,12 @@ const CheckoutSideMenu = () => {
     context.setCount(--context.count);
   };
 
+  // Manejhar los cambios en cantidad de la orden
   const quantityChange = (id, type) => {
     const auxProducts = [...context.cartProducts];
 
     const itemIndex = auxProducts.findIndex((product) => product.id == id);
-    console.log(`antes: ${auxProducts[itemIndex].units} `);
+
     if (type > 0) {
       auxProducts[itemIndex].units++;
       context.setCartProducts(auxProducts);
@@ -28,10 +31,25 @@ const CheckoutSideMenu = () => {
       auxProducts[itemIndex].units--;
       context.setCartProducts(auxProducts);
     }
-    console.log(`despues: ${auxProducts[itemIndex].units} `);
+
     if (auxProducts[itemIndex].units === 0) {
       handleDelete(id);
     }
+  };
+
+  // Confirmar la orden
+  const handleCheckout = () => {
+    const orderToAdd = {
+      date: '27.10.2023',
+      products: context.cartProducts,
+      totalProducts: context.cartProducts.length,
+      totalPrice: totalPrice(context.cartProducts),
+    };
+
+    context.setOrder([...context.order, orderToAdd]);
+    context.setCartProducts([]); // Limpiar la lista de mla orden
+    context.setCount(0);
+    context.closeCheckoutSideMenu();
   };
 
   return (
@@ -50,7 +68,7 @@ const CheckoutSideMenu = () => {
         </div>
       </div>
 
-      <div className='px-6 overflow-y-auto'>
+      <div className='px-6 overflow-y-auto flex-1'>
         {context.cartProducts.map((product) => (
           <OrderCard
             id={product.id}
@@ -65,12 +83,22 @@ const CheckoutSideMenu = () => {
         ))}
       </div>
       <div className='px-6'>
-        <p className='flex justify-between items-center'>
+        <p className='flex justify-between items-center mb-2'>
           <span className='font-light'>Total</span>
           <span className='font-medium text-2xl'>
             ${totalPrice(context.cartProducts)}
           </span>
         </p>
+
+        {/* Link es un componente de react-dom que permite hacer redirección */}
+        <Link to='/my-orders/last'>
+          <button
+            className='bg-black w-full py-3 mb-6 text-white rounded-lg'
+            onClick={() => handleCheckout()}
+          >
+            Checkout
+          </button>
+        </Link>
       </div>
     </aside>
   );
