@@ -4,8 +4,6 @@ import Layout from '../../Components/Layout';
 import OrdersCard from '../../Components/OrdersCard';
 import { ShoppingCartContext } from '../../Context';
 
-import { ChevronLeftIcon } from '@heroicons/react/24/solid';
-
 function MyOrders() {
   const context = useContext(ShoppingCartContext); // leer el estado global del contexto
   return (
@@ -14,15 +12,14 @@ function MyOrders() {
         <h1>My Orders</h1>
       </div>
 
-      {context.order.map((order, index) => {
-        <Link key={index} to={`/my-order/${order.id}`}>
+      {context.order.map((order, index) => (
+        <Link key={index} to={`/my-orders/${index}`}>
           <OrdersCard
             totalPrice={order.totalPrice}
             totalProducts={order.totalProducts}
           />
-          ;
-        </Link>;
-      })}
+        </Link>
+      ))}
     </Layout>
   );
 }

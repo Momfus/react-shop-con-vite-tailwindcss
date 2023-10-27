@@ -6,6 +6,13 @@ import OrderCard from '../../Components/OrderCard';
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 function MyOrder() {
   const context = useContext(ShoppingCartContext); // leer el estado global del contexto
+  const currentPath = window.location.pathname;
+
+  let index = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+
+  if (index === 'last') {
+    index = context.order?.length - 1;
+  }
 
   return (
     <Layout>
@@ -18,7 +25,7 @@ function MyOrder() {
       <div className='px-6 overflow-y-auto flex-col w-80'>
         {
           // Muestra el último elemento de la orden
-          context.order?.slice(-1)[0].products.map((product) => (
+          context.order?.[index]?.products.map((product) => (
             <OrderCard
               id={product.id}
               key={product.id}
