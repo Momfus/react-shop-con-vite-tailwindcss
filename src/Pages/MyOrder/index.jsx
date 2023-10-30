@@ -11,7 +11,7 @@ function MyOrder() {
   let index = currentPath.substring(currentPath.lastIndexOf('/') + 1);
 
   if (index === 'last') {
-    index = context.order?.length - 1;
+    index = context.order?.length - 1; // Se toma el último elemento (de la orden creada si es 'last')
   }
 
   return (
