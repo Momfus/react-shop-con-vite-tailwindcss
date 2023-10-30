@@ -1,5 +1,6 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import apiUrl from '../api';
 
 export const ShoppingCartContext = createContext();
 
@@ -39,6 +40,45 @@ export const ShoppingCartProvider = ({ children }) => {
   // Shopping Cart - Order
   const [order, setOrder] = useState([]);
 
+  // Get Products
+  const [items, setItems] = useState(null);
+  const [filteredItems, setFilteredItems] = useState(null);
+
+  // Get Products by title
+  const [searchByTitle, setSearchByTitle] = useState(null);
+
+  useEffect(() => {
+    // Método local para usar async
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/products`);
+        let data = await response.json();
+        data = data.map((item) => ({
+          ...item,
+          units: 0, // añadido para el conteo en el carrito
+        }));
+        setItems(data);
+      } catch (error) {
+        console.error(`Ocurrio un error: ${error}`);
+      }
+    };
+
+    // Usar la función para obtener los datos
+    fetchData();
+  }, []);
+
+  const filteredItemsByTitle = (items, searchByTitle) => {
+    return items?.filter((item) =>
+      item.title.toLowerCase().includes(searchByTitle.toLowerCase())
+    );
+  };
+
+  useEffect(() => {
+    if (searchByTitle) {
+      setFilteredItems(filteredItemsByTitle(items, searchByTitle));
+    }
+  }, [items, searchByTitle]);
+  console.log('search: ', filteredItems);
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -56,6 +96,11 @@ export const ShoppingCartProvider = ({ children }) => {
         closeCheckoutSideMenu,
         order,
         setOrder,
+        items,
+        setItems,
+        searchByTitle,
+        setSearchByTitle,
+        filteredItems,
       }}
     >
       {children};
