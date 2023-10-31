@@ -10,15 +10,15 @@ const Navbar = () => {
   const activeStyle = 'underline'; // Manejo de clasees de la ruta activa
 
   return (
-    <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light bg-gray-50">
+    <nav className='flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light bg-gray-50'>
       {/* Izquierdo */}
-      <ul className="flex items-center gap-3">
-        <li className="font-semibold text-lg">
-          <NavLink to="/">Shopi</NavLink>
+      <ul className='flex items-center gap-3'>
+        <li className='font-semibold text-lg'>
+          <NavLink to='/'>Shopi</NavLink>
         </li>
         <li>
           <NavLink
-            to="/"
+            to='/'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             All
@@ -26,7 +26,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/clothes"
+            to='/category/clothes'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             Clothes
@@ -34,7 +34,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/electronics"
+            to='/category/electronics'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             Electronics
@@ -42,7 +42,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/furnitures"
+            to='/category/furnitures'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             Furnitures
@@ -50,7 +50,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/toys"
+            to='/category/toys'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             Toys
@@ -58,7 +58,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/others"
+            to='/category/others'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             Others
@@ -67,11 +67,11 @@ const Navbar = () => {
       </ul>
 
       {/* Derecha */}
-      <ul className="flex items-center gap-3">
-        <li className="text-black/60">momfus@outlook.com</li>
+      <ul className='flex items-center gap-3'>
+        <li className='text-black/60'>momfus@outlook.com</li>
         <li>
           <NavLink
-            to="/my-orders"
+            to='/my-orders'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             My Orders
@@ -79,7 +79,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/my-account"
+            to='/my-account'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             My Account
@@ -87,7 +87,7 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/my-order"
+            to='/my-order'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             My Order
@@ -95,14 +95,14 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/sign-in"
+            to='/sign-in'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             Sign In
           </NavLink>
         </li>
-        <li className="flex justify-center items-center">
-          <ShoppingCartIcon className="h-6 w-6" /> {context.count}
+        <li className='flex justify-center items-center'>
+          <ShoppingCartIcon className='h-6 w-6' /> {context.count}
         </li>
       </ul>
     </nav>

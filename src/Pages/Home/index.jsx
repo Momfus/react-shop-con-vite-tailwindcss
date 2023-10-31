@@ -1,27 +1,59 @@
-import { useContext } from 'react'; // useEffect = siempre que se usen API y comunicarse con la misma
+import { useContext, useEffect, useState } from 'react'; // useEffect = siempre que se usen API y comunicarse con la misma
 
 import Layout from '../../Components/Layout';
 import Card from '../../Components/Card';
 
 import ProductDetail from '../../Components/ProductDetail';
 import { ShoppingCartContext } from '../../Context';
+import { useParams } from 'react-router-dom';
 
 function Home() {
   const context = useContext(ShoppingCartContext);
+  const { category } = useParams();
+
+  // const [isInputFilterVisible, setIsInputFilterVisible] = useState(false);
+
+  useEffect(() => {
+    context.setCategory(category);
+  }, [category, context]);
+
+  const filterByCategory = (products, category) => {
+    console.log(category);
+    if (category && products) {
+      return products.filter(
+        (product) => product.category.name.toLowerCase() === context.category
+      );
+    } else {
+      return products;
+    }
+  };
 
   const renderView = () => {
-    if (context.searchByTitle?.length > 0) {
-      if (context.filteredItems?.length > 0) {
-        return context.filteredItems?.map((item) => (
+    const productFilterByCategory = filterByCategory(context.items, category);
+    if (productFilterByCategory && productFilterByCategory.length > 0) {
+      // setIsInputFilterVisible(true);
+      if (context.searchByTitle?.length > 0) {
+        if (context.filteredItems?.length > 0) {
+          return context.filteredItems?.map((item) => (
+            <Card key={item.id} data={item} />
+          ));
+        } else {
+          return renderNoItemsFounded();
+        }
+      } else {
+        return productFilterByCategory?.map((item) => (
           <Card key={item.id} data={item} />
         ));
-      } else {
-        // eslint-disable-next-line react/no-unescaped-entities
-        return <div>We don't have anything :(</div>;
       }
     } else {
-      return context.items?.map((item) => <Card key={item.id} data={item} />);
+      // setIsInputFilterVisible(false);
+      return renderNoItemsFounded();
     }
+  };
+
+  const renderNoItemsFounded = () => {
+    // eslint-disable-next-line react/no-unescaped-entities
+    return <div>We don't have anything :(</div>;
   };
 
   return (

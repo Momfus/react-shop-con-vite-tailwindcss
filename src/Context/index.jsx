@@ -11,6 +11,8 @@ export const ShoppingCartProvider = ({ children }) => {
     children: PropTypes.node.isRequired,
   };
 
+  const [category, setCategory] = useState(undefined);
+
   // Shopping Cart - Incremente quantity
   const [count, setCount] = useState(0);
 
@@ -68,7 +70,12 @@ export const ShoppingCartProvider = ({ children }) => {
   }, []);
 
   const filteredItemsByTitle = (items, searchByTitle) => {
-    return items?.filter((item) =>
+    let filerItems = category
+      ? items?.filter(
+          (product) => product.category.name.toLowerCase() === category
+        )
+      : items;
+    return filerItems.sfilter((item) =>
       item.title.toLowerCase().includes(searchByTitle.toLowerCase())
     );
   };
@@ -78,7 +85,6 @@ export const ShoppingCartProvider = ({ children }) => {
       setFilteredItems(filteredItemsByTitle(items, searchByTitle));
     }
   }, [items, searchByTitle]);
-  console.log('search: ', filteredItems);
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -101,6 +107,8 @@ export const ShoppingCartProvider = ({ children }) => {
         searchByTitle,
         setSearchByTitle,
         filteredItems,
+        category,
+        setCategory,
       }}
     >
       {children};
