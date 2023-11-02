@@ -14,13 +14,13 @@ const CheckoutSideMenu = () => {
     const filteredProducts = context.cartProducts.filter(
       (product) => product.id != id
     );
-    context.setCartProducts(filteredProducts);
-    context.setCount(--context.count);
+    context.setCartProducts(filteredProducts)
+    context.setCount(--context.count)
   };
 
   // Manejhar los cambios en cantidad de la orden
   const quantityChange = (id, type) => {
-    const auxProducts = [...context.cartProducts];
+    const auxProducts = [...context.cartProducts]
 
     const itemIndex = auxProducts.findIndex((product) => product.id == id);
 
@@ -46,10 +46,10 @@ const CheckoutSideMenu = () => {
       totalPrice: totalPrice(context.cartProducts),
     };
 
-    context.setOrder([...context.order, orderToAdd]);
-    context.setCartProducts([]); // Limpiar la lista de mla orden
-    context.setCount(0);
-    context.closeCheckoutSideMenu();
+    context.setOrder([...context.order, orderToAdd])
+    context.setCartProducts([]) // Limpiar la lista de mla orden
+    context.setCount(0)
+    context.closeCheckoutSideMenu()
   };
 
   return (
@@ -101,7 +101,7 @@ const CheckoutSideMenu = () => {
         </Link>
       </div>
     </aside>
-  );
-};
+  )
+}
 
 export default CheckoutSideMenu;

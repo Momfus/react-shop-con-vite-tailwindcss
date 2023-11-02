@@ -11,6 +11,8 @@ export const ShoppingCartProvider = ({ children }) => {
     children: PropTypes.node.isRequired,
   };
 
+  const [loadingApi, setLoadingAPi] = useState(true);
+
   const [category, setCategory] = useState(undefined);
 
   // Shopping Cart - Incremente quantity
@@ -62,6 +64,8 @@ export const ShoppingCartProvider = ({ children }) => {
         setItems(data);
       } catch (error) {
         console.error(`Ocurrio un error: ${error}`);
+      } finally {
+        setLoadingAPi(false);
       }
     };
 
@@ -109,9 +113,10 @@ export const ShoppingCartProvider = ({ children }) => {
         filteredItems,
         category,
         setCategory,
+        loadingApi,
       }}
     >
-      {children};
+      {children}
     </ShoppingCartContext.Provider>
   );
 };

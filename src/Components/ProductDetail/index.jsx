@@ -12,35 +12,35 @@ const ProductDetail = () => {
         context.isProductDetailOpen ? 'flex' : 'hidden'
       } product-detail flex flex-col fixed right-0 border border-black rounded-lg bg-white`}
     >
-      <div className="flex justify-between items-center p-6">
-        <h2 className="font-medium text-xl">Detail</h2>
+      <div className='flex justify-between items-center p-6'>
+        <h2 className='font-medium text-xl'>Detail</h2>
         <div
-          className=" cursor-pointer "
+          className=' cursor-pointer '
           onClick={() => context.closeProductDetail()}
         >
-          <XCircleIcon className="h-6 w-6  text-gray-300" />
+          <XCircleIcon className='h-6 w-6  text-gray-300' />
         </div>
       </div>
-      <figure className="px-6">
+      <figure className='px-6'>
         <img
-          className="w-full h-full rounded-lg"
+          className='w-full h-full rounded-lg'
           src={context.productToShow.images?.[0]}
           alt={context.productToShow.title}
         />
       </figure>
-      <p className="flex flex-col p-6">
-        <span className="font-medium text-2xl">
+      <p className='flex flex-col p-6'>
+        <span className='font-medium text-2xl'>
           ${context.productToShow.price}
         </span>
-        <span className="font-medium text-md">
+        <span className='font-medium text-md'>
           {context.productToShow.title}
         </span>
-        <span className="font-ligth text-sm">
+        <span className='font-ligth text-sm'>
           {context.productToShow.description}
         </span>
       </p>
     </aside>
-  );
-};
+  )
+}
 
 export default ProductDetail;

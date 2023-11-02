@@ -27,27 +27,27 @@ function Home() {
     context.setCategory(category);
     setProductFilterByCategory(filterByCategory(context.items, category));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, context]);
+  }, [category, context.loadingApi]);
 
   const renderView = () => {
-    if (productFilterByCategory && productFilterByCategory.length > 0) {
-      if (context.searchByTitle?.length > 0) {
-        if (context.filteredItems?.length > 0) {
-          return context.filteredItems?.map((item) => (
+    if (productFilterByCategory)
+      if (productFilterByCategory && productFilterByCategory.length > 0) {
+        if (context.searchByTitle?.length > 0) {
+          if (context.filteredItems?.length > 0) {
+            return context.filteredItems?.map((item) => (
+              <Card key={item.id} data={item} />
+            ));
+          } else {
+            return renderNoItemsFound();
+          }
+        } else {
+          return productFilterByCategory?.map((item) => (
             <Card key={item.id} data={item} />
           ));
-        } else {
-          return renderNoItemsFound();
         }
       } else {
-        return productFilterByCategory?.map((item) => (
-          <Card key={item.id} data={item} />
-        ));
+        return renderNoItemsFound();
       }
-    } else {
-      // setIsInputFilterVisible(false);
-      return renderNoItemsFound();
-    }
   };
 
   const renderNoItemsFound = () => {
@@ -68,18 +68,26 @@ function Home() {
     }
   };
 
-  return (
-    <Layout>
-      <div className='flex items-center justify-center relative w-80 mb-4'>
-        <h1 className='font-medium text-xl'>Exclusive Products</h1>
-      </div>
-      {renderInputFilter()}
-      <div className='grid gap-4 grid-cols-4 w-full max-w-screen-lg'>
-        {renderView()}
-      </div>
-      <ProductDetail />
-    </Layout>
-  );
+  const renderHomeByLoadingApi = () => {
+    if (context.loadingApi || productFilterByCategory === null) {
+      return <h1 className='m-4 font-bold text-xl'>Loading...</h1>;
+    } else {
+      return (
+        <>
+          <div className='flex items-center justify-center relative w-80 mb-4'>
+            <h1 className='font-medium text-xl'>Exclusive Products</h1>
+          </div>
+          {renderInputFilter()}
+          <div className='grid gap-4 grid-cols-4 w-full max-w-screen-lg'>
+            {renderView()}
+          </div>
+          <ProductDetail />
+        </>
+      );
+    }
+  };
+
+  return <Layout>{renderHomeByLoadingApi()}</Layout>;
 }
 
 export default Home;
