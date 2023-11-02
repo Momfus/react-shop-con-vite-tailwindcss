@@ -75,7 +75,7 @@ export const ShoppingCartProvider = ({ children }) => {
           (product) => product.category.name.toLowerCase() === category
         )
       : items;
-    return filerItems.sfilter((item) =>
+    return filerItems.filter((item) =>
       item.title.toLowerCase().includes(searchByTitle.toLowerCase())
     );
   };
