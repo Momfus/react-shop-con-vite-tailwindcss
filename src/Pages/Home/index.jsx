@@ -11,23 +11,25 @@ function Home() {
   const context = useContext(ShoppingCartContext);
   const { category } = useParams();
 
-  const [productFilterByCategory, setProductFilterByCategory] = useState(null);
+  let productFilterByCategory = null;
 
   const filterByCategory = (products, category) => {
     if (category && products) {
-      return products.filter(
+      const productsFiltered = products.filter(
         (product) => product.category.name.toLowerCase() === context.category
       );
+
+      return productsFiltered;
     } else {
       return products;
     }
   };
 
-  useEffect(() => {
+  // No es necesario un estado ni effect para esto, una vez que se hace un cambio de set con alguno, se vuelve a renderizar este componente
+  {
     context.setCategory(category);
-    setProductFilterByCategory(filterByCategory(context.items, category));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, context.loadingApi]);
+    productFilterByCategory = filterByCategory(context.items, category);
+  }
 
   const renderView = () => {
     if (productFilterByCategory)
@@ -75,7 +77,13 @@ function Home() {
       return (
         <>
           <div className='flex items-center justify-center relative w-80 mb-4'>
-            <h1 className='font-medium text-xl'>Exclusive Products</h1>
+            <h1 className='font-medium text-xl'>
+              {category
+                ? `Products: ${
+                    category.charAt(0).toUpperCase() + category.slice(1)
+                  }`
+                : 'All Products'}
+            </h1>
           </div>
           {renderInputFilter()}
           <div className='grid gap-4 grid-cols-4 w-full max-w-screen-lg'>
