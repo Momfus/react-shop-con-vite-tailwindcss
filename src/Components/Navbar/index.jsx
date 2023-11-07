@@ -9,10 +9,42 @@ const Navbar = () => {
   const context = useContext(ShoppingCartContext); // leer el estado global del contexto
   const activeStyle = 'underline'; // Manejo de clasees de la ruta activa
 
+  // Sign Out
+  const signOut = localStorage.getItem('sign-out');
+  const parsedSignOut = JSON.parse(signOut);
+  const isUserSignOut = context.signOut || parsedSignOut;
+
   const handleSignOut = () => {
     const stringifiedSignOut = JSON.stringify(true);
     localStorage.setItem('sign-out', stringifiedSignOut);
     context.setSignOut(true);
+  };
+
+  const renderViewSignInOut = () => {
+    if (!isUserSignOut) {
+      return (
+        <li>
+          <NavLink
+            to='/sign-in'
+            className={({ isActive }) => (isActive ? activeStyle : undefined)}
+            onClick={() => handleSignOut()}
+          >
+            Sign Out
+          </NavLink>
+        </li>
+      );
+    } else {
+      return (
+        <li>
+          <NavLink
+            to='/sign-in'
+            className={({ isActive }) => (isActive ? activeStyle : undefined)}
+          >
+            Sign In
+          </NavLink>
+        </li>
+      );
+    }
   };
 
   return (
@@ -74,7 +106,7 @@ const Navbar = () => {
 
       {/* Derecha */}
       <ul className='flex items-center gap-3'>
-        <li className='text-black/60'>momfus@outlook.com</li>
+        <li className='text-black/60'>julianMunozVelazquez@outlook.com</li>
         <li>
           <NavLink
             to='/my-orders'
@@ -99,15 +131,7 @@ const Navbar = () => {
             My Order
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to='/sign-in'
-            className={({ isActive }) => (isActive ? activeStyle : undefined)}
-            onClick={() => handleSignOut()}
-          >
-            Sign Out
-          </NavLink>
-        </li>
+        {renderViewSignInOut()}
         <li className='flex justify-center items-center'>
           <ShoppingCartIcon className='h-6 w-6' /> {context.cartProducts.length}
         </li>
