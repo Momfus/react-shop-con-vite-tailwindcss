@@ -9,6 +9,12 @@ const Navbar = () => {
   const context = useContext(ShoppingCartContext); // leer el estado global del contexto
   const activeStyle = 'underline'; // Manejo de clasees de la ruta activa
 
+  const handleSignOut = () => {
+    const stringifiedSignOut = JSON.stringify(true);
+    localStorage.setItem('sign-out', stringifiedSignOut);
+    context.setSignOut(true);
+  };
+
   return (
     <nav className='flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light bg-gray-50'>
       {/* Izquierdo */}
@@ -97,8 +103,9 @@ const Navbar = () => {
           <NavLink
             to='/sign-in'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
+            onClick={() => handleSignOut()}
           >
-            Sign In
+            Sign Out
           </NavLink>
         </li>
         <li className='flex justify-center items-center'>

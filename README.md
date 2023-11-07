@@ -6,11 +6,11 @@ Curso que parte de una tienda en react que deben hacerse algunos cambios simulan
 
 # Desafio
 
-1- Protección de Rutas
+1 - Protección de Rutas
 
-2- Navbar Dinámica
+2 - Navbar Dinámica
 
-3- Maquetación de las vistas de usuario
+3 - Maquetación de las vistas de usuario
 
 4 - Bonus: Responsive Design para shopi (opcional)
 
