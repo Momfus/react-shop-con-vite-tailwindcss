@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import Layout from '../../Components/Layout';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { ShoppingCartContext } from '../../Context';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 function SignIn() {
   const context = useContext(ShoppingCartContext);
+  const [view, setView] = useState('user-info');
+  const form = useRef(null);
 
   // Account
   const account = localStorage.getItem('account');
@@ -21,6 +23,15 @@ function SignIn() {
     : true;
   const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState;
 
+  const createAnAccount = () => {
+    const formData = new FormData(form.current);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+    };
+    console.log(data);
+  };
+
   // Password
   const [showPassword, setShowPassword] = useState(false);
 
@@ -36,10 +47,9 @@ function SignIn() {
     }
   };
 
-  //General Render
-  return (
-    <Layout>
-      <h1 className='font-medium text-xl text-center mb-6 w-80'>Welcome!</h1>
+  // Login render
+  const renderLogIn = () => {
+    return (
       <div className='flex flex-col w-80'>
         <p>
           <span className='font-light text-sm'>Email: </span>
@@ -86,11 +96,94 @@ function SignIn() {
         </div>
         <button
           className='border border-black disabled:text-black/40 disabled:border-black/40 rounded-lg mt-6 py-3'
+          onClick={() => {
+            setView('create-user-info');
+            setShowPassword(false);
+          }}
           disabled={hasUserAnAccount}
         >
           Sign up
         </button>
       </div>
+    );
+  };
+
+  // Sign up render
+  const renderSignUp = () => {
+    return (
+      <form ref={form} className='flex flex-col gap-4 w-80'>
+        {/* Name */}
+        <div className='flex flex-col gap-1'>
+          <label htmlFor='name' className='font-light text-sm'>
+            Your name:
+          </label>
+          <input
+            type='text'
+            id='name'
+            name='name'
+            defaultValue={parsedAccount?.name}
+            placeholder='John Doe'
+            className='rounded-lg border border-black placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
+          />
+        </div>
+        {/* email */}
+        <div className='flex flex-col gap-1'>
+          <label htmlFor='email' className='font-light text-sm'>
+            Your email:{' '}
+          </label>
+          <input
+            type='text'
+            id='mail'
+            name='mail'
+            defaultValue={parsedAccount?.email}
+            placeholder='test@testing.com'
+            className='rounded-lg border border-black placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
+          />
+        </div>
+        {/* Password */}
+        <div className='flex flex-col gap-1'>
+          <div className='flex flex-row'>
+            <label htmlFor='password' className='font-light text-sm'>
+              Your password:
+            </label>
+            <div
+              className='flex justify-center items-center ml-1'
+              onClick={toggleShowPassword}
+            >
+              <a className='font-light text-xs underline-offset-4 cursor-pointer'>
+                {renderShowHideIcon()}
+              </a>
+            </div>
+          </div>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name='password'
+            id='password'
+            defaultValue={parsedAccount?.password}
+            placeholder='******'
+            className='rounded-lg border border-black placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
+          />
+        </div>
+        <Link to='/'>
+          <button
+            className='bg-black text-white w-full rounded-lg py-3'
+            onClick={() => createAnAccount()}
+          >
+            Create
+          </button>
+        </Link>
+      </form>
+    );
+  };
+
+  //General Render
+  const renderView = () =>
+    view === 'create-user-info' ? renderSignUp() : renderLogIn();
+
+  return (
+    <Layout>
+      <h1 className='font-medium text-xl text-center mb-6 w-80'>Welcome!</h1>
+      {renderView()}
     </Layout>
   );
 }
