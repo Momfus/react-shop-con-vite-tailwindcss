@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Layout from '../../Components/Layout';
 import { useContext, useRef, useState } from 'react';
 import { ShoppingCartContext } from '../../Context';
@@ -16,20 +16,36 @@ function SignIn() {
 
   // Se hace un check tnato del estado en el context como si lo tiene en localStorage para asegurarse
   const noAccountInLocalStorage = parsedAccount
-    ? Object.keys(parsedAccount).length === 0
+    ? Object.keys(parsedAccount)?.length === 0
     : true;
   const noAccountInLocalState = context.account
-    ? Object.keys(context.account).length === 0
+    ? Object.keys(context.account)?.length === 0
     : true;
   const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState;
+
+  const handleSignIn = () => {
+    const stringifiedSignOut = JSON.stringify(false);
+    localStorage.setItem('sign-out', stringifiedSignOut);
+    context.setSignOut(false);
+    //Redirect
+    return <Navigate replace to={'/'} />;
+  };
 
   const createAnAccount = () => {
     const formData = new FormData(form.current);
     const data = {
       name: formData.get('name'),
       email: formData.get('email'),
+      password: formData.get('password'),
     };
-    console.log(data);
+
+    // Create account
+    const stringifiedAccount = JSON.stringify(data);
+    localStorage.setItem('account', stringifiedAccount);
+    context.setAccount(data);
+
+    // Sign in
+    handleSignIn();
   };
 
   // Password
@@ -73,13 +89,14 @@ function SignIn() {
             onClick={toggleShowPassword}
           >
             <a className='font-light text-xs underline-offset-4 cursor-pointer'>
-              {renderShowHideIcon()}
+              {parsedAccount ? renderShowHideIcon() : <></>}
             </a>
           </div>
         </div>
         <Link to='/'>
           <button
             className='bg-black disabled:bg-black/40 text-white w-full rounded-lg py-3 mt-4 mb-2'
+            onClick={() => handleSignIn()}
             disabled={!hasUserAnAccount}
           >
             Log In
@@ -133,8 +150,8 @@ function SignIn() {
           </label>
           <input
             type='text'
-            id='mail'
-            name='mail'
+            id='email'
+            name='email'
             defaultValue={parsedAccount?.email}
             placeholder='test@testing.com'
             className='rounded-lg border border-black placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
