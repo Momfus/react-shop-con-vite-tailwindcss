@@ -68,7 +68,7 @@ function SignIn() {
       if (showPassword) {
         return <span>{parsedAccount?.password}</span>;
       } else {
-        return <span>{'*'.repeat(parsedAccount?.password.length)}</span>;
+        return <span>{'*'.repeat(parsedAccount?.password?.length)}</span>;
       }
     } else {
       return <></>;
@@ -93,7 +93,11 @@ function SignIn() {
             onClick={toggleShowPassword}
           >
             <a className='font-light text-xs underline-offset-4 cursor-pointer'>
-              {parsedAccount ? renderShowHideIcon() : <></>}
+              {parsedAccount && parsedAccount?.password ? (
+                renderShowHideIcon()
+              ) : (
+                <></>
+              )}
             </a>
           </div>
         </div>
