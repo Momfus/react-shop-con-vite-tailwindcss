@@ -1,8 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { ShoppingCartContext } from '../../Context';
-
-import { ShoppingCartIcon } from '@heroicons/react/24/solid';
+import ShoppingCart from '../ShoppingCart';
 
 // Navbar usar react-router-dom para redirigir con distintas opciones
 const Navbar = () => {
@@ -53,8 +52,7 @@ const Navbar = () => {
             to='/sign-in'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
-            Sign In {hasUserAnAccount ? 'true' : 'false'}{' '}
-            {!isUserSignOut ? 'true' : 'false'}
+            Sign In
           </NavLink>
           <p>{hasUserAnAccount}</p>
         </li>
@@ -148,7 +146,7 @@ const Navbar = () => {
         </li>
         {renderViewSignInOut()}
         <li className='flex justify-center items-center'>
-          <ShoppingCartIcon className='h-6 w-6' /> {context.cartProducts.length}
+          <ShoppingCart />
         </li>
       </ul>
     </nav>
