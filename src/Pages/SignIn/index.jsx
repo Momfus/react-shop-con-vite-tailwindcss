@@ -68,7 +68,7 @@ function SignIn() {
       if (showPassword) {
         return <span>{parsedAccount?.password}</span>;
       } else {
-        return <span>{'*'.repeat(parsedAccount?.password.length)}</span>;
+        // return <span>{'*'.repeat(parsedAccount?.password.length)}</span>;
       }
     } else {
       return <></>;
