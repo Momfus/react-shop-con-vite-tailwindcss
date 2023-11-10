@@ -14,6 +14,19 @@ const Navbar = () => {
   const parsedSignOut = JSON.parse(signOut);
   const isUserSignOut = context.signOut || parsedSignOut;
 
+  // Account
+  const account = localStorage.getItem('account');
+  const parsedAccount = JSON.parse(account);
+
+  // Has an account
+  const noAccountInLocalStorage = parsedAccount
+    ? Object.keys(parsedAccount)?.length === 0
+    : true;
+  const noAccountInLocalState = context.account
+    ? Object.keys(context.account)?.length === 0
+    : true;
+  const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState;
+
   const handleSignOut = () => {
     const stringifiedSignOut = JSON.stringify(true);
     localStorage.setItem('sign-out', stringifiedSignOut);
@@ -21,7 +34,7 @@ const Navbar = () => {
   };
 
   const renderViewSignInOut = () => {
-    if (!isUserSignOut) {
+    if (hasUserAnAccount && !isUserSignOut) {
       return (
         <li>
           <NavLink
@@ -40,8 +53,10 @@ const Navbar = () => {
             to='/sign-in'
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
-            Sign In
+            Sign In {hasUserAnAccount ? 'true' : 'false'}{' '}
+            {!isUserSignOut ? 'true' : 'false'}
           </NavLink>
+          <p>{hasUserAnAccount}</p>
         </li>
       );
     }
@@ -52,7 +67,7 @@ const Navbar = () => {
       {/* Izquierdo */}
       <ul className='flex items-center gap-3'>
         <li className='font-semibold text-lg'>
-          <NavLink to='/'>Shopi</NavLink>
+          <NavLink to={`${isUserSignOut ? '/sign-in' : '/'}`}>Shopi</NavLink>
         </li>
         <li>
           <NavLink
