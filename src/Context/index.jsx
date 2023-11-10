@@ -4,6 +4,29 @@ import apiUrl from '../api';
 
 export const ShoppingCartContext = createContext();
 
+export const initializeLocalStorage = () => {
+  // Nota: por cuestiones prácticas y como es solo frontend, no se pide que la contrseña se encripte (o que se envie a un backend que lo haga)
+
+  const accountInLocalStorage = localStorage.getItem('account');
+  const signOutInLocalStorage = localStorage.getItem('sign-out');
+  let parsedAccount;
+  let parsedSignOut;
+
+  if (!accountInLocalStorage) {
+    localStorage.setItem('account', JSON.stringify({}));
+    parsedAccount = {};
+  } else {
+    parsedAccount = JSON.parse(accountInLocalStorage);
+  }
+
+  if (!signOutInLocalStorage) {
+    localStorage.setItem('sign-out', JSON.stringify(false));
+    parsedSignOut = false;
+  } else {
+    parsedSignOut = JSON.parse(signOutInLocalStorage);
+  }
+};
+
 // Se crea un contexto dentro del componente "hijo" recibido para compartir la data de los props
 export const ShoppingCartProvider = ({ children }) => {
   ShoppingCartProvider.propTypes = {
@@ -11,8 +34,16 @@ export const ShoppingCartProvider = ({ children }) => {
     children: PropTypes.node.isRequired,
   };
 
+  // My account
+  const [account, setAccount] = useState({});
+
+  // Sign Out
+  const [signOut, setSignOut] = useState(false);
+
+  // API State
   const [loadingApi, setLoadingAPi] = useState(true);
 
+  // Category state
   const [category, setCategory] = useState(undefined);
 
   // Shopping Cart - Incremente quantity
@@ -114,6 +145,10 @@ export const ShoppingCartProvider = ({ children }) => {
         category,
         setCategory,
         loadingApi,
+        account,
+        setAccount,
+        signOut,
+        setSignOut,
       }}
     >
       {children}
