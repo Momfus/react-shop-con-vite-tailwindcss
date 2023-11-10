@@ -119,7 +119,7 @@ const Navbar = () => {
 
       {/* Derecha */}
       <ul className='flex items-center gap-3'>
-        <li className='text-black/60'>julianMunozVelazquez@outlook.com</li>
+        <li className='text-black/60'> {parsedAccount?.email}</li>
         <li>
           <NavLink
             to='/my-orders'
