@@ -63,6 +63,17 @@ function SignIn() {
     }
   };
 
+  const renderPassword = () => {
+    if (parsedAccount) {
+      if (showPassword) {
+        return <span>{parsedAccount?.password}</span>;
+      } else {
+        return <span>{'*'.repeat(parsedAccount?.password.length)}</span>;
+      }
+    } else {
+      return <></>;
+    }
+  };
   // Login render
   const renderLogIn = () => {
     return (
@@ -74,14 +85,7 @@ function SignIn() {
         <div className='flex'>
           <p className='mb-0'>
             <span className='font-light text-sm'>Password: </span>
-            <span>
-              {' '}
-              {showPassword ? (
-                <span>{parsedAccount?.password}</span>
-              ) : (
-                <span>{'*'.repeat(parsedAccount?.password.length)}</span>
-              )}
-            </span>
+            <span>{renderPassword()}</span>
           </p>
 
           <div
